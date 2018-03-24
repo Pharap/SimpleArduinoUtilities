@@ -44,7 +44,7 @@ public:
 	//
 	
 	using ContainerType = Container;
-	using ItemType = typename ContainerType::ItemType;
+	using ValueType = typename ContainerType::ValueType;
 	using SizeType = typename ContainerType::SizeType;
 	using IndexType = typename ContainerType::IndexType;
 	using IndexOfType = typename ContainerType::IndexOfType;
@@ -97,25 +97,25 @@ public:
 	}
 	
 	// O(1)
-	ItemType * getData(void) noexcept
+	ValueType * getData(void) noexcept
 	{
 		return this->container.getData();
 	}
 	
 	// O(1)
-	const ItemType * getData(void) const noexcept
+	const ValueType * getData(void) const noexcept
 	{
 		return this->container.getData();
 	}
 	
 	// O(1)
-	ItemType & operator [](const IndexType & index)
+	ValueType & operator [](const IndexType & index)
 	{
 		return this->container[index];
 	}
 	
 	// O(1)
-	const ItemType & operator [](const IndexType & index) const
+	const ValueType & operator [](const IndexType & index) const
 	{
 		return this->container[index];
 	}
@@ -127,13 +127,19 @@ public:
 	}
 	
 	// O(N)
-	bool contains(const ItemType & item) const
+	void fill(const ValueType & item)
+	{
+		this->container.fill(item);
+	}
+	
+	// O(N)
+	bool contains(const ValueType & item) const
 	{
 		return this->container.contains(item);
 	}
 	
 	// O(N)
-	IndexOfType indexOf(const ItemType & item) const
+	IndexOfType indexOf(const ValueType & item) const
 	{
 		return this->container.indexOf(item);
 	}
@@ -145,19 +151,19 @@ public:
 	//
 
 	// O(1)
-	ItemType & peek(void)
+	ValueType & peek(void)
 	{
 		return this->container.getLast();
 	}
 
 	// O(1)
-	const ItemType & peek(void) const
+	const ValueType & peek(void) const
 	{
 		return this->container.getLast();
 	}
 
 	// O(1)
-	bool push(const ItemType & item)
+	bool push(const ValueType & item)
 	{
 		return this->container.append(item);
 	}
@@ -169,13 +175,13 @@ public:
 	}
 	
 	// O(N)
-	bool removeFirst(const ItemType & item)
+	bool removeFirst(const ValueType & item)
 	{
 		return this->container.removeFirst(item);
 	}
 	
 	// O(N)
-	bool removeLast(const ItemType & item)
+	bool removeLast(const ValueType & item)
 	{
 		return this->container.removeLast(item);
 	}
@@ -187,7 +193,7 @@ public:
 	}
 
 	// O(N)
-	bool insert(const IndexType & index, const ItemType & item)
+	bool insert(const IndexType & index, const ValueType & item)
 	{
 		return this->container.insert(index, item);
 	}

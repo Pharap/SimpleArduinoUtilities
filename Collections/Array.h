@@ -41,7 +41,7 @@ public:
 	// Type Aliases
 	//
 
-	using ItemType = Type;
+	using ValueType = Type;
 	using SizeType = uint8_t;
 	using IndexType = uint8_t;
 	using IndexOfType = int8_t;
@@ -61,7 +61,7 @@ private:
 	// Member Variables
 	//
 	
-	ItemType items[Capacity] = {};
+	ValueType items[Capacity] = {};
 	
 public:
 
@@ -94,25 +94,25 @@ public:
 	}
 	
 	// O(1)
-	/*constexpr*/ ItemType * getData(void) noexcept
+	/*constexpr*/ ValueType * getData(void) noexcept
 	{
 		return &this->items[FirstIndex];
 	}
 	
 	// O(1)
-	constexpr const ItemType * getData(void) const noexcept
+	constexpr const ValueType * getData(void) const noexcept
 	{
 		return &this->items[FirstIndex];
 	}
 	
 	// O(1)
-	ItemType & operator [](const IndexType & index)
+	ValueType & operator [](const IndexType & index)
 	{
 		return this->items[index];
 	}
 	
 	// O(1)
-	const ItemType & operator [](const IndexType & index) const
+	const ValueType & operator [](const IndexType & index) const
 	{
 		return this->items[index];
 	}
@@ -121,12 +121,14 @@ public:
 	void clear(void);
 	
 	// O(N)
-	bool contains(const ItemType & item) const;
+	void fill(const ValueType & item);
 	
 	// O(N)
-	IndexOfType indexOf(const ItemType & item) const;
+	bool contains(const ValueType & item) const;
+	
+	// O(N)
+	IndexOfType indexOf(const ValueType & item) const;
 };
-
 
 //
 // Definition
@@ -137,12 +139,20 @@ template< typename Type, uint8_t Capacity >
 void Array<Type, Capacity>::clear(void)
 {
 	for (IndexType i = 0; i < this->getCount(); ++i)
-		this->items[i].~ItemType();
+		this->items[i].~ValueType();
 }
 
 // O(N)
 template< typename Type, uint8_t Capacity >
-bool Array<Type, Capacity>::contains(const ItemType & item) const
+void Array<Type, Capacity>::fill(const ValueType & item)
+{
+	for (IndexType i = 0; i < this->getCount(); ++i)
+		this->items[i] = item;
+}
+
+// O(N)
+template< typename Type, uint8_t Capacity >
+bool Array<Type, Capacity>::contains(const ValueType & item) const
 {
 	for (IndexType i = 0; i < this->getCount(); ++i)
 		if (this->items[i] == item)
@@ -152,7 +162,7 @@ bool Array<Type, Capacity>::contains(const ItemType & item) const
 
 // O(N)
 template< typename Type, uint8_t Capacity >
-auto Array<Type, Capacity>::indexOf(const ItemType & item) const -> IndexOfType
+auto Array<Type, Capacity>::indexOf(const ValueType & item) const -> IndexOfType
 {
 	for (IndexType i = 0; i < this->getCount(); ++i)
 		if (this->items[i] == item)
@@ -173,7 +183,7 @@ public:
 	// Type Aliases
 	//
 
-	using ItemType = Type;
+	using ValueType = Type;
 	using SizeType = uint8_t;
 	using IndexType = uint8_t;
 	using IndexOfType = int8_t;
@@ -216,22 +226,22 @@ public:
 	}
 	
 	// O(1)
-	/*constexpr*/ ItemType * getData(void) noexcept
+	/*constexpr*/ ValueType * getData(void) noexcept
 	{
 		return nullptr;
 	}
 	
 	// O(1)
-	constexpr const ItemType * getData(void) const noexcept
+	constexpr const ValueType * getData(void) const noexcept
 	{
 		return nullptr;
 	}
 	
 	// O(1)
-	/*constexpr*/ ItemType & operator [](const IndexType & index) = delete;
+	/*constexpr*/ ValueType & operator [](const IndexType & index) = delete;
 	
 	// O(1)
-	constexpr const ItemType & operator [](const IndexType & index) const = delete;
+	constexpr const ValueType & operator [](const IndexType & index) const = delete;
 	
 	// O(1)
 	constexpr void clear(void) noexcept
@@ -239,13 +249,18 @@ public:
 	}
 	
 	// O(1)
-	constexpr bool contains(const ItemType & item) const noexcept
+	constexpr void fill(void) noexcept
+	{
+	}
+	
+	// O(1)
+	constexpr bool contains(const ValueType & item) const noexcept
 	{
 		return false;
 	}
 	
 	// O(1)
-	constexpr IndexOfType indexOf(const ItemType & item) const noexcept
+	constexpr IndexOfType indexOf(const ValueType & item) const noexcept
 	{
 		return InvalidIndex;
 	}
