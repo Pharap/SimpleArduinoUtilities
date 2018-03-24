@@ -286,11 +286,8 @@ bool Deque<Type, Capacity>::removeFirst(const ValueType & item)
 		if (this->items[i] == item)
 		{
 			--this->next;
-			while (i < this->next)
-			{
-				this->items[i] = this->items[i + 1]; // should be std::move
-				++i;
-			}
+			for (IndexType j = i; j < this->next; ++j)
+				this->items[j] = this->items[j + 1]; // should be std::move
 			this->items[this->next].~ValueType();
 			return true;
 		}
@@ -301,15 +298,12 @@ bool Deque<Type, Capacity>::removeFirst(const ValueType & item)
 template< typename Type, uint8_t Capacity >
 bool Deque<Type, Capacity>::removeLast(const ValueType & item)
 {
-	for(IndexType i = this->next; i > 0; --i)
+	for(IndexType i = this->next - 1; i > 0; --i)
 		if (this->items[i] == item)
 		{
 			--this->next;
-			while (i < this->next)
-			{
-				this->items[i] = this->items[i + 1]; // should be std::move
-				++i;
-			}
+			for (IndexType j = i; j < this->next; ++j)
+				this->items[j] = this->items[j + 1]; // should be std::move
 			this->items[this->next].~ValueType();
 			return true;
 		}
