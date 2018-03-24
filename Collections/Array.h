@@ -127,7 +127,10 @@ public:
 	bool contains(const ValueType & item) const;
 	
 	// O(N)
-	IndexOfType indexOf(const ValueType & item) const;
+	IndexOfType indexOfFirst(const ValueType & item) const;
+	
+	// O(N)
+	IndexOfType indexOfLast(const ValueType & item) const;
 };
 
 //
@@ -162,9 +165,19 @@ bool Array<Type, Capacity>::contains(const ValueType & item) const
 
 // O(N)
 template< typename Type, uint8_t Capacity >
-auto Array<Type, Capacity>::indexOf(const ValueType & item) const -> IndexOfType
+auto Array<Type, Capacity>::indexOfFirst(const ValueType & item) const -> IndexOfType
 {
 	for (IndexType i = 0; i < this->getCount(); ++i)
+		if (this->items[i] == item)
+			return i;
+	return InvalidIndex;
+}
+
+// O(N)
+template< typename Type, uint8_t Capacity >
+auto Array<Type, Capacity>::indexOfLast(const ValueType & item) const -> IndexOfType
+{
+	for (IndexType i = this->getCount() - 1; i > 0; --i)
 		if (this->items[i] == item)
 			return i;
 	return InvalidIndex;
@@ -260,7 +273,13 @@ public:
 	}
 	
 	// O(1)
-	constexpr IndexOfType indexOf(const ValueType & item) const noexcept
+	constexpr IndexOfType indexOfFirst(const ValueType & item) const noexcept
+	{
+		return InvalidIndex;
+	}
+	
+	// O(1)
+	constexpr IndexOfType indexOfLast(const ValueType & item) const noexcept
 	{
 		return InvalidIndex;
 	}

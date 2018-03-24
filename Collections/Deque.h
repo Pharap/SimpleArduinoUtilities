@@ -128,7 +128,10 @@ public:
 	bool contains(const ValueType & item) const;
 	
 	// O(N)
-	IndexOfType indexOf(const ValueType & item) const;
+	IndexOfType indexOfFirst(const ValueType & item) const;
+	
+	// O(N)
+	IndexOfType indexOfLast(const ValueType & item) const;
 	
 public:
 
@@ -218,9 +221,19 @@ bool Deque<Type, Capacity>::contains(const ValueType & item) const
 
 // O(N)
 template< typename Type, uint8_t Capacity >
-auto Deque<Type, Capacity>::indexOf(const ValueType & item) const -> IndexOfType
+auto Deque<Type, Capacity>::indexOfFirst(const ValueType & item) const -> IndexOfType
 {
 	for (IndexType i = 0; i < this->getCount(); ++i)
+		if (this->items[i] == item)
+			return i;
+	return InvalidIndex;
+}
+
+// O(N)
+template< typename Type, uint8_t Capacity >
+auto Deque<Type, Capacity>::indexOfLast(const ValueType & item) const -> IndexOfType
+{
+	for (IndexType i = this->getCount() - 1; i > 0; --i)
 		if (this->items[i] == item)
 			return i;
 	return InvalidIndex;

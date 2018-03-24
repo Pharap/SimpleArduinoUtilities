@@ -139,9 +139,15 @@ public:
 	}
 	
 	// O(N)
-	IndexOfType indexOf(const ValueType & item) const
+	IndexOfType indexOfFirst(const ValueType & item) const
 	{
-		return this->container.indexOf(item);
+		return this->container.indexOfLast(item);
+	}
+	
+	// O(N)
+	IndexOfType indexOfLast(const ValueType & item) const
+	{
+		return this->container.indexOfFirst(item);
 	}
 	
 public:
